@@ -1,48 +1,36 @@
-/**
- * Esta clase es el punto de entrada a la aplicacion
- *
- * Fecha de creacion: Marzo 10 de 2016
- *
- * @Version 1.1
- * @Author Claudia Marcela Alvarez Ramos
- */
-import java.util.ArrayList;
-import static spark.Spark.*;
-import edu.uniandes.ecos.ASE.app.model.EstructuraRegresionLineal;
-import static edu.uniandes.ecos.ASE.app.model.RegresionLineal.obtenerDatosRegresionLineal;
+import com.greatideas.app.model.RangoTamanio;
 import java.util.LinkedList;
-import java.util.List;
-import util.Archivo;
+import static spark.Spark.*;
 import static spark.Spark.get;
+import util.Archivo;
 
 public class Main {
+    
+ 
     /**
      * #Method
      * 
-     * Este método es el método principal de la aplicacion
+     * Este metodo es el metodo principal de la aplicacion
      * 
      * @param args 
      * @author Claudia Marcela Alvarez Ramos
      * @return B0
     
      */
+    
    public static void main(String[] args) {
 
         port(Integer.valueOf(System.getenv("PORT")));
         staticFileLocation("/public");
 
-        get("/regresion-lineal", (req, res) -> {
-            String retorno;
-            List<EstructuraRegresionLineal> casosPrueba = new ArrayList<EstructuraRegresionLineal>();
+        get("/rango-tamanio", (req, res) -> {
+ 
+    String retorno;
+            RangoTamanio caso = null;
             LinkedList listaDeDatos = Archivo.leerArchivo();
-            if(listaDeDatos!=null && (listaDeDatos.size()==4)){ 
-               casosPrueba.add(obtenerDatosRegresionLineal((LinkedList)listaDeDatos.get(0), (LinkedList)listaDeDatos.get(2), 2,4,4,4,3));
-               casosPrueba.add(obtenerDatosRegresionLineal((LinkedList)listaDeDatos.get(0), (LinkedList)listaDeDatos.get(3), 3,4,4,4,3));
-               casosPrueba.add(obtenerDatosRegresionLineal((LinkedList)listaDeDatos.get(1), (LinkedList)listaDeDatos.get(2), 2,5,4,4,4));
-               casosPrueba.add(obtenerDatosRegresionLineal((LinkedList)listaDeDatos.get(1), (LinkedList)listaDeDatos.get(3), 3,6,4,4,4));
+            if(listaDeDatos!=null && listaDeDatos.size()>0){ 
+               caso = new RangoTamanio((LinkedList<Double>)listaDeDatos.get(0));
              }
-            //dibujarTablaValores.DibujarReporte(casosPrueba);
-
             retorno = "<!DOCTYPE html>"
                     + "<html>"
                     + "<head>"
@@ -65,35 +53,19 @@ public class Main {
                     + "<table id=\"t01\">"
                     + "<tbody>"
                     + "<tr>"
-                    + "<th>Nombre</th>"
-                    + "<th>B0</th>"
-                    + "<th>B1</th>"
-                    + "<th>rxy</th>"
-                    + "<th>r^2</th>"
-                    + "<th>yk</th>"
-                    + "<th>B0</th>"
-                    + "<th>B1</th>"
-                    + "<th>rxy</th>"
-                    + "<th>r^2</th>"
-                    + "<th>yk</th>"
+                    + "<th>VS</th>"
+                    + "<th>S</th>"
+                    + "<th>M</th>"
+                    + "<th>L</th>"
+                    + "<th>VL</th>"
                     + "</tr>";
-            int i = 1;
-            for (EstructuraRegresionLineal casoPrueba : casosPrueba) {
                 retorno += "<tr>"
-                        + "<td>" + "" + i + "</td>"
-                        + "<td>" + casoPrueba.getB0()+ "</td>"
-                        + "<td>" + casoPrueba.getB1()+ "</td>"
-                        + "<td>" + casoPrueba.getRxy() + "</td>"
-                        + "<td>" + casoPrueba.getR2() + "</td>"
-                        + "<td>" + casoPrueba.getYk() + "</td>"
-                        + "<td>" + casoPrueba.getB0()+ "</td>"
-                        + "<td>" + casoPrueba.getB1()+ "</td>"
-                        + "<td>" + casoPrueba.getRxy() + "</td>"
-                        + "<td>" + casoPrueba.getR2() + "</td>"
-                        + "<td>" + casoPrueba.getYk() + "</td>"
+                        + "<td>" + caso.getVS()+ "</td>"
+                        + "<td>" + caso.getS()+ "</td>"
+                        + "<td>" + caso.getM() + "</td>"
+                        + "<td>" + caso.getL() + "</td>"
+                        + "<td>" + caso.getVL() + "</td>"
                         + "</tr>";
-                i++;
-            }
             retorno += "</tbody>"
                     + "</table>"
                     + "</body>"
@@ -101,5 +73,4 @@ public class Main {
             return retorno;
         });
     }
-   
 }

@@ -2,7 +2,7 @@
  * Esta clase es una libreria de funciones estadisticas
  *
  * Fecha de creacion: Febrero 28 de 2016
- *
+ * Fecha de modificación: Marzo 24 de 2016
  * @Version 1.2
  * @Author Claudia Marcela Alvarez Ramos
  */
@@ -15,10 +15,6 @@ import java.util.LinkedList;
 
 
 public class LibreriaFuncionesEstadisticas {
-    //MOD. Cantidad de lineas. 1
-    //Reutilizada. 11
-    //Adicionadas. 2	
-    //eliminadas. 1
     /**
      * #Method
      * Este método se encarga de sumar todos los datos de la coleccion recibida por paramentros
@@ -197,6 +193,11 @@ public class LibreriaFuncionesEstadisticas {
          * @param lista
          * @param media
          * @author Claudia Marcela Alvarez Ramos
+         * @return 	/**
+         * Este método se encarga de calcular la desviacion estandar
+         * @param lista
+         * @param media
+         * @author Claudia Marcela Alvarez Ramos
          * @return 
          */
         
@@ -227,7 +228,23 @@ public class LibreriaFuncionesEstadisticas {
 		BigDecimal b0p = new BigDecimal(numero);
                 return (b0p.setScale(decimals, RoundingMode.HALF_UP)).doubleValue();
 	}
-        
+         /**
+         * #Method
+         * 
+         * Este método se encarga de calcular el logaritmo natural por elemento de la lista y retorna
+         * una nueva lista con todos los elementos con su ln.
+         * 
+         * @param lista
+         * @author Claudia Marcela Alvarez Ramos
+         * @return el promedio de la lista recibida por parametros
+         */
+	public static LinkedList<Double> calcularLnPorElemento(LinkedList<Double> lista){
+                LinkedList<Double> lValores = new LinkedList<Double>();
+                for (Double valor : lista) {
+                    lValores.add(LibreriaFuncionesEstadisticas.redondear(Math.log(valor),4));
+                }
+		return lValores;
+	}
         /**
          * #Method
          * 
@@ -264,4 +281,6 @@ public class LibreriaFuncionesEstadisticas {
 	  }  
 	  return true;  
 	}
+        
+        
 }
